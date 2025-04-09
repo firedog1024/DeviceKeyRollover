@@ -1,0 +1,5 @@
+{
+    "DeviceId":"<device name>",
+    "HubHostname":"<Azure IoT Hub host name>",
+    "DeviceKey":"<Current device key value>"
+}
