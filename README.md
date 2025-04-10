@@ -29,7 +29,7 @@ The necessary NuGet libraries to compile and run the code are as follows:
 
 | Package Name                                          | Release Version                                           |
 | ---                                                   | ---                                                       |
-| Microsoft.Azure.Devices.Client                        | [![NuGet][iothub-device-release]][iothub-device-nuget]    |
+| Microsoft.Azure.Devices.Client                        | ![NuGet][iothub-device-release]][iothub-device-nuget      |
 | Microsoft.Azure.Devices                               | [![NuGet][iothub-service-release]][iothub-service-nuget]  |
 | Microsoft.Azure.Devices.Shared                        | [![NuGet][iothub-shared-release]][iothub-shared-nuget]    |
 | Microsoft.Azure.Devices.Provisioning.Client           | [![NuGet][dps-device-release]][dps-device-nuget]          |
