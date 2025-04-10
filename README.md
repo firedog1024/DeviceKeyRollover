@@ -1,5 +1,9 @@
 # DeviceKeyRollover
 
+## This is just a sample not for production use
+
+The code here is provided for demo purposes only and should not be construed as production ready code.  The code has been simplified for easier illustration of key points and not all error paths have been covered.
+
 ## Introduction
 Sample code for an Azure IoT Hub device that illustrates rolling over the symmetric device key via a cloud-to-device message.  The code is written in C# using .Net Core 8. 
 
