@@ -66,6 +66,57 @@ dotnet run
 The output should be similar to the following:
 
 ```
+4/9/2025 7:29:01 PM> Press Control+C at any time to quit the sample.
+
+4/9/2025 7:29:01 PM> Subscribed to receive C2D messages over callback.
+
+4/9/2025 7:29:01 PM> Device device1 waiting for C2D messages from the hub...
+4/9/2025 7:29:01 PM> Use the Azure Portal IoT Hub blade or Azure IoT Explorer to send a message to this device.
+Device sending message 1 to IoT hub.
+Device sent message 1 to IoT hub.
+Device sending message 2 to IoT hub.
+Device sent message 2 to IoT hub.
+```
+To initialize a device key roll over go to the device page again and copy the Secondary Key.  Now click the "Message to Device" option at the top menu item and you should see the following page:
+
+![Sending a Cloud to Device message](assets/sendingC2Dmessage.png "Sending a Cloud to Device message")
+
+Under Properties add a key name of "deviceKey" and paste the copied Secondary Key value.  Click the "Add Property" button and you are ready to send a cloud to device message.  Click the "Send Message" button at the top and the message will be sent to the device.  You should then see the following output in the command window as the device disconnects, then reconnects with the new key and messages continue to be sent.  Something like this:
 
 ```
-## 
+Device sending message 36 to IoT hub.
+Device sent message 36 to IoT hub.
+Device sending message 37 to IoT hub.
+Device sent message 37 to IoT hub.
+4/9/2025 7:35:06 PM> C2D message callback - message received with Id=.
+4/9/2025 7:35:06 PM> Received message: []
+	Property: key=deviceKey, value=**** deleted key for privacy ****
+	Content type: text/plain; charset=UTF-8
+
+4/9/2025 7:35:06 PM> Completed C2D message with Id=.
+Disconnecting from IoT Hub
+Reconnecting to the hub with the new device key
+Connected to the hub with the new device key
+Saving the new device key to the device config JSON file
+Device sending message 38 to IoT hub.
+Device sent message 38 to IoT hub.
+Device sending message 39 to IoT hub.
+Device sent message 39 to IoT hub.
+```
+
+## Things to consider
+
+### Security of the device key
+The key is stored across sessions in the deviceConfig.json file it should be initialized with correct values prior to the first run of this code.  In production it is not recommended to store the symmetric device key in the open like this instead either encrypt the value or store within a secure enclave.   
+
+### Letting any cloud applications know the status of the devie key
+It is advisable that the device use a reported property to indicate the current version or last updated date of the device key so admins know what devices are on what version of the device key.
+
+### Cloud to Device message has a TTL (Time To Live)
+Finally note that cloud-to-device messages have a life cycle and when applied to the hub they have a limited life time before they are expired and will not be sent to the device should it connect after the cloud-to-device message expires.  This is one reason to let the cloud side of your application when a device updates it's device key.
+
+## alternate stratergies for updating the device key
+Alternative strategies for updating the device key might be to use a desired property to send a new device key to a device and once it has been applied to the device send a reported property status that the key has been changed so it can be deleted from the device twin.  If the devices are generally always online this could also be performed via a direct method call passing in the new device key.  The processing of the key and subsequent disconnect/reconnect processing will be the same.
+
+## x509 certs are a better solution to device security than symmetric keys
+It is worth mentioning that the use of x509 certificates to establish operational identity of your device is a much more secure method of identifying your device to the IoT Hub.  This is especially true if the certificates are stored in a TPM or secure enclave on the device.  Please see the following for more information [Authenticate identities with X.509 certificates](https://learn.microsoft.com/en-us/azure/iot-hub/authenticate-authorize-x509)
