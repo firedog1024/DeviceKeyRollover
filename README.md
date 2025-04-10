@@ -1,4 +1,4 @@
-# DeviceKeyRollover
+# Device Key rollover for Azure IoT Hub devices
 
 ## This is just a sample not for production use
 
