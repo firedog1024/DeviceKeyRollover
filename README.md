@@ -29,11 +29,9 @@ The necessary NuGet libraries to compile and run the code are as follows:
 
 | Package Name                                          | Release Version                                           |
 | ---                                                   | ---                                                       |
-| Microsoft.Azure.Devices.Client                        | ![NuGet][iothub-device-release]][iothub-device-nuget      |
-| Microsoft.Azure.Devices                               | [![NuGet][iothub-service-release]][iothub-service-nuget]  |
-| Microsoft.Azure.Devices.Shared                        | [![NuGet][iothub-shared-release]][iothub-shared-nuget]    |
-| Microsoft.Azure.Devices.Provisioning.Client           | [![NuGet][dps-device-release]][dps-device-nuget]          |
-| Microsoft.Azure.Devices.Provisioning.Transport.Mqtt   | [![NuGet][dps-device-mqtt-release]][dps-device-mqtt-nuget]|
+| Microsoft.Azure.Devices.Client                        | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Azure.Devices.Client.svg?style=plastic "")](https://www.nuget.org/packages/Microsoft.Azure.Devices.Client/)    |
+| Microsoft.Azure.Devices                               | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Azure.Devices.svg?style=plastic "")](https://www.nuget.org/packages/Microsoft.Azure.Devices.Provisioning.Service/)   |
+| Microsoft.Azure.Devices.Shared                        | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Azure.Devices.Shared.svg?style=plastic "")](https://www.nuget.org/packages/Microsoft.Azure.Devices.Shared/)     |
 
 For additional information on the Azure IoT C# SDK see the [GitHub repo here](https://github.com/Azure/azure-iot-sdk-csharp)
 
