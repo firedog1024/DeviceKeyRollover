@@ -7,11 +7,9 @@ The code here is provided for demo purposes only and should not be construed as 
 ## Introduction
 Sample code for an Azure IoT Hub device that illustrates rolling over the symmetric device key via a cloud-to-device message.  The code is written in C# using .Net Core 8. 
 
-The symmetric device key 
+The sample accepts cloud-to-device messages and processes specific requests to roll over the device key.  During the roll over process the device is disconnected from the IoT Hub and reconnected using the newly provided symmetrical key.  The trigger for the key roll over is if cloud-to-device message contains a property named "deviceKey" and the expected value is a symmetric device key.
 
-The sample accepts cloud-to-device messages and processes specific requests to roll over the device key.  During the roll over process the device is disconnected from the IoT Hub and reconnected using the newly provided symetrical key.  The trigger for the key roll over is if cloud-to-device message contains a property named "deviceKey" and the expected value is a symmetric device key.
-
-The sample also sends a periodic simple JSON telemetry payload to the IoT Hub every 10 seconds.  The telemetry looks like this (actual valkues are random within the range 20 - 35 and 60 - 80 respectively):
+The sample also sends a periodic simple JSON telemetry payload to the IoT Hub every 10 seconds.  The telemetry looks like this (actual values are random within the range 20 - 35 and 60 - 80 respectively):
 
 ```
 {
@@ -27,7 +25,7 @@ Along with a message property "temperatureAlert" that is true or false depending
 
 ### Pre-requisites
 
-The code was wriitten using C# and the .Net Core runtimve version 8.0.  .Net core can be downloaded for your OS from [here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
+The code was written using C# and the .Net Core runtime version 8.0.  .Net core can be downloaded for your OS from [here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
 
 The necessary NuGet libraries to compile and run the code are as follows:
 
@@ -39,7 +37,7 @@ The necessary NuGet libraries to compile and run the code are as follows:
 
 For additional information on the Azure IoT C# SDK see the [GitHub repo here](https://github.com/Azure/azure-iot-sdk-csharp)
 
-Once the pre-requisites have been installed you will need to conadd values specific to your instance of IoT Hub and device you identity you wish to test with.  These values should be entered into the deviceConfig.json file.
+Once the pre-requisites have been installed you will need to add values specific to your instance of IoT Hub and device identity that you wish to test with.  These values should be entered into the deviceConfig.json file.
 
 ```
 {
@@ -49,7 +47,7 @@ Once the pre-requisites have been installed you will need to conadd values speci
 }
 ```
 
-The HubHostname value can be gotten from [Azure Portal](https://portal.azure.com) by going to your IoT hub and copying the Hostname in the Overview tab.  Then in the Devices pageyou can find the device identity for the value of DeviceId.  Finally DeviceKey value can be found by clicking on the device you wish to test with then copying the Primary Key.
+The HubHostname value can be retrieved from the [Azure Portal](https://portal.azure.com) by going to your IoT hub and copying the Hostname in the Overview tab.  Then in the Devices page you can find the device identity for the value of DeviceId.  Finally, DeviceKey value can be found by clicking on the device you wish to test with then copying the Primary Key.
 
 ## Compiling and running
 
@@ -59,7 +57,7 @@ To build the code from the command line use:
 dotnet build
 ```
 
-Assuming a successful build you can execue the code with:
+Assuming a successful build you can execute the code with:
 
 ```
 dotnet run
@@ -109,16 +107,16 @@ Device sent message 39 to IoT hub.
 ## Things to consider
 
 ### Security of the device key
-The key is stored across sessions in the deviceConfig.json file it should be initialized with correct values prior to the first run of this code.  In production it is not recommended to store the symmetric device key in the open like this instead either encrypt the value or store within a secure enclave.   
+The key is stored across sessions in the deviceConfig.json file and it should be initialized with correct values prior to the first run of this code.  In production it is not recommended to store the symmetric device key in the open like this instead either encrypt the value or store within a secure enclave.   
 
-### Letting any cloud applications know the status of the devie key
-It is advisable that the device use a reported property to indicate the current version or last updated date of the device key so admins know what devices are on what version of the device key.
+### Letting any cloud applications know the status of the device key
+It is advisable that the device use a reported property to indicate the current version or last updated date of the device key, so admins know what devices are on what version of the device key.
 
 ### Cloud to Device message has a TTL (Time To Live)
-Finally note that cloud-to-device messages have a life cycle and when applied to the hub they have a limited life time before they are expired and will not be sent to the device should the device connect after the cloud-to-device message expires.  This is one reason to let the cloud side of your application know what vewrsion of the symmetrical key it is using.  This should be updated in the cloud application after the device refreshes it's device key.
+Finally, note that cloud-to-device messages have a life cycle and when applied to the hub they have a limited lifetime before they are expired and will not be sent to the device should the device connect after the cloud-to-device message expires.  This is one reason to let the cloud side of your application know what vewrsion of the symmetrical key it is using.  This should be updated in the cloud application after the device refreshes it's device key.
 
-## alternate stratergies for updating the device key
+## Alternate strategies for updating the device key
 Alternative strategies for updating the device key might be to use a desired property to send a new device key to a device and once it has been applied to the device send a reported property status that the key has been changed so it can be deleted from the device twin.  If the devices are generally always online this could also be performed via a direct method call passing in the new device key.  The processing of the key and subsequent disconnect/reconnect processing will be the same.
 
-## x509 certs are a better solution to device security than symmetric keys
-It is worth mentioning that the use of x509 certificates to establish operational identity of your device is a much more secure method of identifying your device to the IoT Hub.  This is especially true if the certificates are stored in a TPM or secure enclave on the device.  Please see the following for more information [Authenticate identities with X.509 certificates](https://learn.microsoft.com/en-us/azure/iot-hub/authenticate-authorize-x509)
+## X.509 certs are a better solution to device security than symmetric keys
+It is worth mentioning that the use of x509 certificates to establish operational identity of your device is a much more secure method of identifying your device to the IoT Hub.  This is especially true if the certificates are stored in a TPM or secure enclave on the device.  Please see the following for more information [Authenticate identities with X.509 certificates](https://learn.microsoft.com/en-us/azure/iot-hub/authenticate-authorize-x509).
