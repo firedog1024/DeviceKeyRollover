@@ -115,7 +115,7 @@ The key is stored across sessions in the deviceConfig.json file it should be ini
 It is advisable that the device use a reported property to indicate the current version or last updated date of the device key so admins know what devices are on what version of the device key.
 
 ### Cloud to Device message has a TTL (Time To Live)
-Finally note that cloud-to-device messages have a life cycle and when applied to the hub they have a limited life time before they are expired and will not be sent to the device should it connect after the cloud-to-device message expires.  This is one reason to let the cloud side of your application when a device updates it's device key.
+Finally note that cloud-to-device messages have a life cycle and when applied to the hub they have a limited life time before they are expired and will not be sent to the device should the device connect after the cloud-to-device message expires.  This is one reason to let the cloud side of your application know what vewrsion of the symmetrical key it is using.  This should be updated in the cloud application after the device refreshes it's device key.
 
 ## alternate stratergies for updating the device key
 Alternative strategies for updating the device key might be to use a desired property to send a new device key to a device and once it has been applied to the device send a reported property status that the key has been changed so it can be deleted from the device twin.  If the devices are generally always online this could also be performed via a direct method call passing in the new device key.  The processing of the key and subsequent disconnect/reconnect processing will be the same.
